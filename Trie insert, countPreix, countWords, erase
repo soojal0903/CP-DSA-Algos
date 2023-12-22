@@ -1,0 +1,73 @@
+#include <bits/stdc++.h> 
+
+struct Node{
+    Node* Links[26];
+    int ew=0;
+    int cp=0;
+    bool containsKey(char ch){
+        return Links[ch-'a']!=nullptr;
+    }
+    void createKey(char ch,Node *node){
+        Links[ch-'a']=node;
+    }
+};
+
+class Trie{
+
+    Node* root;
+    public:
+
+    Trie(){
+        root = new Node();
+    }
+
+    void insert(string &word){
+        Node* node=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!node->containsKey(word[i])){
+                node->createKey(word[i], new Node);
+            }
+            node=node->Links[word[i]-'a'];
+            node->cp++;
+        }
+        node->ew++;
+    }
+
+    int countWordsEqualTo(string &word){
+        Node* node=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!node->containsKey(word[i])){
+                return 0;
+            }
+            node=node->Links[word[i]-'a'];
+        }
+        return node->ew;
+    }
+
+    int countWordsStartingWith(string &word){
+        Node* node=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!node->containsKey(word[i])){
+                return 0;
+            }
+            node=node->Links[word[i]-'a'];
+        }
+        return node->cp;
+    }
+
+    void erase(string &word){
+        Node* node=root;
+        for(int i=0;i<word.length();i++)
+        {
+            if(!node->containsKey(word[i])){
+                return;
+            }
+            node=node->Links[word[i]-'a'];
+            node->cp--;
+        }
+        node->ew--;
+    }
+};
