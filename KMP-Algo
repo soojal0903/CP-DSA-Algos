@@ -1,0 +1,25 @@
+void createLPS(string &s,vector<int>&lps)
+{
+  lps[0]=0;
+    int i=1;
+    int len=0;
+    while(i<s.size())
+    {
+        if(s[i]==s[len])
+        {
+            len++;
+            lps[i]=len;
+            i++;
+        }
+        else{
+            if(len)
+            {
+                len=lps[len-1];
+            }
+            else{
+                lps[i]=0;
+                i++;
+            }
+        }
+    }
+}
